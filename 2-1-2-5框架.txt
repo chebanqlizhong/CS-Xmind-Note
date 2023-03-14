@@ -1,0 +1,107 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+#define OK 1
+#define ERROR 0
+#define OVERFLOW -2
+typedef int Status; //Status 是函数返回值类型，其值是函数结果状态代码。
+
+#define MAXSIZE 100			//顺序表可能达到的最大长度
+typedef struct {
+   char no[20];			//图书ISBN
+   char name[50];		   //图书名字
+   double price; 			//图书价格
+} Book;
+
+typedef struct {
+	Book *elem; //存储空间的基地址
+	int length; //当前长度
+} SqList;
+
+
+typedef Book ElemType; //ElemType 为可定义的数据类型，此设为Book类型
+
+
+Status InitList_Sq(SqList &L) { //算法2.1 顺序表的初始化
+	//构造一个空的顺序表L
+	L.elem = new ElemType[MAXSIZE]; //为顺序表分配一个大小为MAXSIZE的数组空间
+	if (!L.elem)
+		exit(OVERFLOW); //存储分配失败退出
+	L.length = 0; //空表长度为0
+	return OK;
+}
+
+Status Create_Sq(SqList &L){
+	//顺序表信息输入
+	cout<<"请输入图书数量：";
+	cin>>L.length;
+	if(L.length>MAXSIZE)
+	      {cout<<"数量不能超过"<<MAXSIZE<<endl;
+	       return ERROR;}
+	else
+	  for(int i=0;i<L.length;i++)
+	   {cout << "请输入第"<<i+1<<"本书的信息，包括：书号 书名 价格（用空格隔开）:";
+	   	cin>>L.elem[i].no>>L.elem[i].name>>L.elem[i].price;
+	   }
+	 return OK;
+}
+
+void Display(SqList L){
+	//顺序表的输出
+		cout << "当前图书系统信息（顺序表）读出:\n";
+			for (i = 0; i < L.length; i++)
+				cout << left << setw(15) << L.elem[i].no << "\t" << left
+						<< setw(50) << L.elem[i].name << "\t" << left
+						<< setw(5) << L.elem[i].price << endl;
+			cout << endl;
+} 
+.
+.
+.
+.
+void menu(){
+	cout << "1. 建立\n";
+	cout << "2. 输入\n";
+	cout << "3. 取值\n";
+	cout << "4. 查找\n";
+	cout << "5. 插入\n";
+	cout << "6. 删除\n";
+	cout << "7. 输出\n";
+	cout << "0. 退出\n\n";
+}
+
+int main() {
+	SqList L;
+	int i = 0, temp, a, c, choose;
+	double price;
+	Book e;
+	choose = -1;
+	while (choose != 0) {
+		menu();
+		cout << "请选择:";
+		cin >> choose;
+		switch (choose) {
+		case 1://创建顺序表
+			if (InitList_Sq(L))
+				cout << "成功建立顺序表\n\n";
+			else
+				cout << "顺序表建立失败\n\n";
+			break;
+		case 2: //顺序表信息输入
+			if(Create_Sq(L))
+			cout << "成功输入顺序表\n\n";
+			else
+				cout << "顺序表输入信息失败\n\n";
+			break;
+		.
+		.
+		.
+		.
+		
+		case 7: //顺序表的输出
+		    Display(L); 
+			break;
+		}
+	}
+	return 0;
+}
